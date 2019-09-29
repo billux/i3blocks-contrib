@@ -214,7 +214,7 @@ class MonitorManager():
         self.refreshButton = Button(self.root, text=REFRESH_SYMBOL, **style)
         self.bottomRow.append(self.refreshButton)
         
-        if which("arandr"):
+        if which("lxrandr"):
             self.arandrButton = Button(self.root, text=ARANDR_SYMBOL, **style)
             self.bottomRow.append(self.arandrButton)
         else:
@@ -241,7 +241,7 @@ class MonitorManager():
 
         if self.arandrButton:
             self.arandrButton.bind("<Button-1>", self.handleArandr)
-            self.setInfo(self.arandrButton, "Launch aRandR")
+            self.setInfo(self.arandrButton, "Launch lxrandr")
 
         self.cancelButton.bind("<Button-1>", self.handleCancel)
         self.setInfo(self.cancelButton, "Cancel")
@@ -315,7 +315,7 @@ class MonitorManager():
         root.geometry('+{}+{}'.format(x, y))
 
     def setInfo(self, widget, info):
-        widget.bind("<Enter>", lambda e: self.infoLabel.config(text=info, fg="black"))
+        widget.bind("<Enter>", lambda e: self.infoLabel.config(text=info, fg="#839496"))
         widget.bind("<Leave>", lambda e: self.infoLabel.config(text=""))
 
     def handleApply(self, e=None):
@@ -392,7 +392,7 @@ class MonitorManager():
         self.root.destroy()
 
     def handleArandr(self, e=None):
-        call(["i3-msg", "-q", "exec", "arandr"])
+        call(["i3-msg", "-q", "exec", "lxrandr"])
         self.root.destroy()
 
     def handleUp(self, e):
@@ -520,7 +520,7 @@ class MonitorManager():
                 self.statusOptionMenus, self.blankedButtons, 
                 self.duplicateButtons, self.rotateButtons, self.reflectButtons,
                 self.brightnessSliders, self.upButtons, self.downButtons):
-            widget.config(fg="gray" if not widget.output.active else "black")
+            widget.config(fg="#839496" if not widget.output.active else "#b58900")
 
         for widget in self.toggleButtons:
             widget.config(text=TOGGLE_ON if widget.output.active else TOGGLE_OFF)
@@ -531,7 +531,7 @@ class MonitorManager():
         for widget in self.primaryButtons:
             widget.config(text=PRIMARY_SYMBOL if widget.output.primary else SECONDARY_SYMBOL)
             if not widget.output.primary:
-                widget.config(fg="gray")
+                widget.config(fg="#839496")
 
         for widget in self.statusOptionMenus:
             widget.config(text=widget.output.status())
@@ -603,7 +603,7 @@ class MonitorManager():
         primaryButton.output = output
         self.primaryButtons.append(primaryButton)
         if not output.primary:
-            primaryButton.config(fg="gray")
+            primaryButton.config(fg="#839496")
         if SHOW_PRIMARY:
             widgets.append(primaryButton)
 
